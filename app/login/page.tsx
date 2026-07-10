@@ -95,7 +95,7 @@ export default function LoginPage() {
             required
             value={email}
             onChange={(event) => setEmail(event.target.value)}
-            className="w-full rounded-2xl border border-black/10 bg-neutral-50 px-4 py-3 text-sm outline-none transition focus:border-neutral-400 focus:bg-white dark:border-white/10 dark:bg-white/3 dark:focus:border-white/20"
+            className="w-full rounded-2xl border border-black/10 bg-neutral-50 px-4 py-3 text-sm outline-none transition focus:border-neutral-400 focus:bg-white dark:border-white/10 dark:bg-white/3 dark:focus:border-white/20 dark:focus:bg-white/5"
           />
         </div>
 
@@ -113,7 +113,7 @@ export default function LoginPage() {
             required
             value={password}
             onChange={(event) => setPassword(event.target.value)}
-            className="w-full rounded-2xl border border-black/10 bg-neutral-50 px-4 py-3 text-sm outline-none transition focus:border-neutral-400 focus:bg-white dark:border-white/10 dark:bg-white/3 dark:focus:border-white/20"
+            className="w-full rounded-2xl border border-black/10 bg-neutral-50 px-4 py-3 text-sm outline-none transition focus:border-neutral-400 focus:bg-white dark:border-white/10 dark:bg-white/3 dark:focus:border-white/20 dark:focus:bg-white/5"
           />
         </div>
 
