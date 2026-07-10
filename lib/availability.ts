@@ -154,3 +154,51 @@ export async function getAcceptedFriendAvailability(
     slots: slots.filter((slot) => slot.user_id === profile.id),
   }));
 }
+
+export async function getFriendDetail(
+  supabase: SupabaseClientLike,
+  currentUserId: string,
+  friendId: string,
+): Promise<FriendAvailability | null> {
+  const friendship = await execute<{ id: string } | null>(
+    supabase
+      .from("friendships")
+      .select("id")
+      .eq("status", "accepted")
+      .or(
+        `and(sender_id.eq.${currentUserId},receiver_id.eq.${friendId}),and(sender_id.eq.${friendId},receiver_id.eq.${currentUserId})`,
+      )
+      .maybeSingle() as QueryBuilder<{ id: string } | null>,
+  );
+
+  if (!friendship) {
+    return null;
+  }
+
+  const [profile, slots] = await Promise.all([
+    execute<Profile | null>(
+      supabase
+        .from("profiles")
+        .select(PROFILE_COLUMNS)
+        .eq("id", friendId)
+        .maybeSingle() as QueryBuilder<Profile | null>,
+    ),
+    execute<AvailabilitySlot[]>(
+      supabase
+        .from("availabilities")
+        .select(AVAILABILITY_COLUMNS)
+        .eq("user_id", friendId)
+        .order("day_of_week", { ascending: true })
+        .order("start_time", { ascending: true }) as QueryBuilder<AvailabilitySlot[]>,
+    ).then((result) => result.map(normalizeSlot)),
+  ]);
+
+  if (!profile) {
+    return null;
+  }
+
+  return {
+    profile,
+    slots,
+  };
+}

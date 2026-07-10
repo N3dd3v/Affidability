@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { Users } from "lucide-react";
 
 import { type FriendAvailabilityHighlight } from "@/hooks/useAvailability";
@@ -62,35 +63,38 @@ export function FriendOverlapPanel({ items }: FriendOverlapPanelProps) {
       ) : (
         <div className="mt-5 space-y-3">
           {items.map((item) => (
-            <article
+            <Link
               key={item.id}
-              className="rounded-3xl border border-black/10 bg-neutral-50/80 p-4 dark:border-white/10 dark:bg-white/4"
+              href={`/friends/${item.id}`}
+              className="block rounded-3xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500/40 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
             >
-              <div className="flex items-center gap-3">
-                <Avatar
-                  displayName={item.displayName}
-                  username={item.username}
-                  avatarUrl={item.avatarUrl}
-                />
-                <div className="min-w-0">
-                  <p className="truncate text-sm font-medium text-neutral-900 dark:text-neutral-100">
-                    {item.displayName}
-                  </p>
-                  <p className="truncate text-sm text-neutral-500 dark:text-neutral-400">
-                    @{item.username}
-                  </p>
+              <article className="rounded-3xl border border-black/10 bg-neutral-50/80 p-4 transition hover:border-neutral-400 hover:bg-white/90 dark:border-white/10 dark:bg-white/4 dark:hover:border-white/20 dark:hover:bg-white/6">
+                <div className="flex items-center gap-3">
+                  <Avatar
+                    displayName={item.displayName}
+                    username={item.username}
+                    avatarUrl={item.avatarUrl}
+                  />
+                  <div className="min-w-0">
+                    <p className="truncate text-sm font-medium text-neutral-900 dark:text-neutral-100">
+                      {item.displayName}
+                    </p>
+                    <p className="truncate text-sm text-neutral-500 dark:text-neutral-400">
+                      @{item.username}
+                    </p>
+                  </div>
                 </div>
-              </div>
 
-              <div className="mt-4 flex items-center justify-between gap-3 text-sm">
-                <span className="rounded-full bg-emerald-500/10 px-3 py-1 text-emerald-800 dark:text-emerald-200">
-                  {item.slotCount} open windows
-                </span>
-                <span className="text-right text-neutral-500 dark:text-neutral-400">
-                  {item.nextWindow}
-                </span>
-              </div>
-            </article>
+                <div className="mt-4 flex items-center justify-between gap-3 text-sm">
+                  <span className="rounded-full bg-emerald-500/10 px-3 py-1 text-emerald-800 dark:text-emerald-200">
+                    {item.slotCount} open windows
+                  </span>
+                  <span className="text-right text-neutral-500 dark:text-neutral-400">
+                    {item.nextWindow}
+                  </span>
+                </div>
+              </article>
+            </Link>
           ))}
         </div>
       )}
