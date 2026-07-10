@@ -104,7 +104,7 @@ export function OnboardingForm({
               required
               value={username}
               onChange={(event) => setUsername(event.target.value)}
-              className="w-full rounded-2xl border border-black/10 bg-neutral-50 px-4 py-3 text-sm outline-none transition focus:border-neutral-400 focus:bg-white dark:border-white/10 dark:bg-white/3 dark:focus:border-white/20"
+              className="w-full rounded-2xl border border-black/10 bg-neutral-50 px-4 py-3 text-sm outline-none transition focus:border-neutral-400 focus:bg-white dark:border-white/10 dark:bg-white/3 dark:focus:border-white/20 dark:focus:bg-white/5"
             />
             <p className="text-xs text-neutral-500 dark:text-neutral-400">
               Use 3-20 lowercase letters, numbers, or underscores.
