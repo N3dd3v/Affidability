@@ -1,5 +1,8 @@
 const USERNAME_REGEX = /^[a-z0-9_]{3,20}$/;
 
+export const MISSING_SUPABASE_ENV_MESSAGE =
+  "Authentication is unavailable until NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY are configured.";
+
 type DatabaseErrorLike = {
   code?: string;
   message?: string;

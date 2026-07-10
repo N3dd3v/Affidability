@@ -13,7 +13,7 @@ import {
   type RealtimePostgresChangesPayload,
 } from "@supabase/supabase-js";
 
-import { type AvailabilitySlot } from "@/lib/availability";
+import { normalizeSlot, type AvailabilitySlot } from "@/lib/availability";
 import { createClient } from "@/lib/supabase/client";
 
 export type UseRealtimeAvailabilityOptions = {
@@ -74,7 +74,7 @@ function handleAvailabilityChange(
 ): void {
   switch (payload.eventType) {
     case "INSERT": {
-      const nextSlot = payload.new;
+      const nextSlot = normalizeSlot(payload.new);
 
       if (!acceptedFriendIds.has(nextSlot.user_id)) {
         return;
@@ -87,7 +87,7 @@ function handleAvailabilityChange(
     }
 
     case "UPDATE": {
-      const nextSlot = payload.new;
+      const nextSlot = normalizeSlot(payload.new);
 
       if (!acceptedFriendIds.has(nextSlot.user_id)) {
         return;

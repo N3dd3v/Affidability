@@ -38,12 +38,12 @@ export default function RootLayout({
           <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(16,185,129,0.08),transparent_36%),radial-gradient(circle_at_bottom_right,rgba(15,23,42,0.08),transparent_28%)]" />
           <div className="relative mx-auto flex min-h-screen max-w-360 flex-col">
             <header className="sticky top-0 z-40 px-4 pt-4 sm:px-6">
-              <div className="flex items-center justify-between rounded-full border border-black/10 bg-white/70 px-4 py-3 shadow-sm backdrop-blur dark:border-white/10 dark:bg-neutral-950/70">
-                <Link href="/" className="font-serif text-2xl tracking-tight">
+              <div className="flex flex-wrap items-center justify-between gap-2 rounded-3xl border border-black/10 bg-white/70 p-3 shadow-sm backdrop-blur sm:rounded-full sm:px-4 sm:py-3 dark:border-white/10 dark:bg-neutral-950/70">
+                <Link href="/" className="font-serif text-xl tracking-tight sm:text-2xl">
                   Affidability
                 </Link>
-                <div className="flex items-center gap-3 text-sm text-neutral-600 dark:text-neutral-300">
-                  <nav className="flex items-center gap-2">
+                <div className="flex flex-wrap items-center justify-end gap-2 text-sm text-neutral-600 dark:text-neutral-300">
+                  <nav className="flex flex-wrap items-center justify-end gap-2">
                     <Link
                       href="/friends"
                       className="rounded-full px-3 py-2 transition hover:bg-black/5 dark:hover:bg-white/5"

@@ -115,7 +115,7 @@ export function IncomingRequests({
           {requests.map((request) => (
             <article
               key={request.id}
-              className="flex items-center justify-between gap-4 rounded-2xl border border-neutral-200 bg-white px-4 py-3 shadow-sm shadow-neutral-950/5 dark:border-neutral-800 dark:bg-neutral-950"
+              className="flex flex-col gap-4 rounded-2xl border border-neutral-200 bg-white px-4 py-3 shadow-sm shadow-neutral-950/5 sm:flex-row sm:items-center sm:justify-between dark:border-neutral-800 dark:bg-neutral-950"
             >
               <div className="flex min-w-0 items-center gap-3">
                 <Avatar
@@ -126,7 +126,7 @@ export function IncomingRequests({
                   <p className="truncate text-sm font-medium text-neutral-900 dark:text-neutral-100">
                     {request.sender.display_name || request.sender.username}
                   </p>
-                  <div className="flex items-center gap-2 text-sm text-neutral-500 dark:text-neutral-400">
+                  <div className="flex flex-wrap items-center gap-2 text-sm text-neutral-500 dark:text-neutral-400">
                     <span className="truncate">@{request.sender.username}</span>
                     <span aria-hidden="true">•</span>
                     <span>{formatRelativeTime(request.created_at)}</span>
@@ -134,7 +134,7 @@ export function IncomingRequests({
                 </div>
               </div>
 
-              <div className="shrink-0">
+              <div className="w-full sm:w-auto sm:shrink-0">
                 <RelationshipButton
                   state={{ type: "incoming_pending", friendshipId: request.id }}
                   busy={busyFor(request.id)}

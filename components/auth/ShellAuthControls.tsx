@@ -5,6 +5,7 @@ import { LoaderCircle, LogOut } from "lucide-react";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 
+import { hasSupabaseEnv } from "@/lib/supabase/config";
 import { createClient } from "@/lib/supabase/client";
 
 type AuthUser = {
@@ -12,14 +13,23 @@ type AuthUser = {
 };
 
 export function ShellAuthControls() {
-  const supabase = useMemo(() => createClient(), []);
+  const supabaseEnabled = hasSupabaseEnv();
+  const supabase = useMemo(
+    () => (supabaseEnabled ? createClient() : null),
+    [supabaseEnabled],
+  );
   const router = useRouter();
   const pathname = usePathname();
   const [user, setUser] = useState<AuthUser | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(supabaseEnabled);
   const [loggingOut, setLoggingOut] = useState(false);
 
   useEffect(() => {
+    if (!supabase) {
+      setLoading(false);
+      return;
+    }
+
     let active = true;
 
     void supabase.auth.getUser().then(({ data }) => {
@@ -43,9 +53,13 @@ export function ShellAuthControls() {
       active = false;
       subscription.unsubscribe();
     };
-  }, [router, supabase.auth]);
+  }, [router, supabase]);
 
   const handleLogout = useCallback(async () => {
+    if (!supabase) {
+      return;
+    }
+
     setLoggingOut(true);
 
     await supabase.auth.signOut();
@@ -54,7 +68,7 @@ export function ShellAuthControls() {
     router.refresh();
 
     setLoggingOut(false);
-  }, [router, supabase.auth]);
+  }, [router, supabase]);
 
   if (loading) {
     return (
@@ -72,7 +86,7 @@ export function ShellAuthControls() {
           void handleLogout();
         }}
         disabled={loggingOut}
-        className="inline-flex items-center gap-2 rounded-full border border-black/10 px-4 py-2 text-sm font-medium text-neutral-700 transition hover:bg-black/5 disabled:cursor-wait disabled:opacity-70 dark:border-white/10 dark:text-neutral-200 dark:hover:bg-white/5"
+        className="inline-flex items-center justify-center gap-2 rounded-full border border-black/10 px-4 py-2 text-sm font-medium text-neutral-700 transition hover:bg-black/5 disabled:cursor-wait disabled:opacity-70 dark:border-white/10 dark:text-neutral-200 dark:hover:bg-white/5"
       >
         {loggingOut ? (
           <LoaderCircle className="h-4 w-4 animate-spin" />
@@ -85,7 +99,7 @@ export function ShellAuthControls() {
   }
 
   return (
-    <div className="flex items-center gap-2">
+    <div className="flex flex-wrap items-center justify-end gap-2">
       <Link
         href="/login"
         className={`rounded-full px-3 py-2 text-sm transition hover:bg-black/5 dark:hover:bg-white/5 ${

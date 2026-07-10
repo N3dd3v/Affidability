@@ -8,33 +8,52 @@ import { AuthCard } from "@/components/auth/AuthCard";
 import {
   getErrorMessage,
   isUsernameTakenError,
+  MISSING_SUPABASE_ENV_MESSAGE,
   normalizeUsername,
   validateUsername,
 } from "@/lib/auth";
+import { hasSupabaseEnv } from "@/lib/supabase/config";
 import { createClient } from "@/lib/supabase/client";
 
 export default function SignupPage() {
-  const supabase = useMemo(() => createClient(), []);
+  const supabaseEnabled = hasSupabaseEnv();
+  const supabase = useMemo(
+    () => (supabaseEnabled ? createClient() : null),
+    [supabaseEnabled],
+  );
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
   const [displayName, setDisplayName] = useState("");
   const [submitting, setSubmitting] = useState(false);
-  const [message, setMessage] = useState<string | null>(null);
+  const [message, setMessage] = useState<string | null>(
+    supabaseEnabled ? null : MISSING_SUPABASE_ENV_MESSAGE,
+  );
   const [messageKind, setMessageKind] = useState<"success" | "error">("error");
 
   useEffect(() => {
+    if (!supabase) {
+      return;
+    }
+
     void supabase.auth.getUser().then(({ data }) => {
       if (data.user) {
         router.replace("/friends");
         router.refresh();
       }
     });
-  }, [router, supabase.auth]);
+  }, [router, supabase]);
 
   const handleSubmit: FormEventHandler<HTMLFormElement> = async (event) => {
     event.preventDefault();
+
+    if (!supabase) {
+      setMessageKind("error");
+      setMessage(MISSING_SUPABASE_ENV_MESSAGE);
+      return;
+    }
+
     setSubmitting(true);
     setMessage(null);
     setMessageKind("error");

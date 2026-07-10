@@ -34,6 +34,18 @@ const AVAILABILITY_COLUMNS =
   "id, user_id, day_of_week, start_time, end_time, status";
 const PROFILE_COLUMNS = "id, username, display_name, avatar_url";
 
+export function normalizeTime(time: string): string {
+  return time.slice(0, 5);
+}
+
+export function normalizeSlot(slot: AvailabilitySlot): AvailabilitySlot {
+  return {
+    ...slot,
+    start_time: normalizeTime(slot.start_time),
+    end_time: normalizeTime(slot.end_time),
+  };
+}
+
 async function execute<T>(query: QueryBuilder<T>): Promise<T> {
   const { data, error } = await query;
 
@@ -48,14 +60,14 @@ export async function getMyAvailability(
   supabase: SupabaseClientLike,
   currentUserId: string,
 ): Promise<AvailabilitySlot[]> {
-  return execute<AvailabilitySlot[]>(
+  return (await execute<AvailabilitySlot[]>(
     supabase
       .from("availabilities")
       .select(AVAILABILITY_COLUMNS)
       .eq("user_id", currentUserId)
       .order("day_of_week", { ascending: true })
       .order("start_time", { ascending: true }) as QueryBuilder<AvailabilitySlot[]>,
-  );
+  )).map(normalizeSlot);
 }
 
 export async function createAvailabilitySlot(
@@ -63,7 +75,8 @@ export async function createAvailabilitySlot(
   currentUserId: string,
   slot: Omit<AvailabilitySlot, "id" | "user_id">,
 ): Promise<AvailabilitySlot> {
-  return execute<AvailabilitySlot>(
+  return normalizeSlot(
+    await execute<AvailabilitySlot>(
     supabase
       .from("availabilities")
       .insert({
@@ -75,6 +88,7 @@ export async function createAvailabilitySlot(
       })
       .select(AVAILABILITY_COLUMNS)
       .single() as QueryBuilder<AvailabilitySlot>,
+    ),
   );
 }
 
@@ -132,7 +146,7 @@ export async function getAcceptedFriendAvailability(
         .in("user_id", friendIds)
         .order("day_of_week", { ascending: true })
         .order("start_time", { ascending: true }) as QueryBuilder<AvailabilitySlot[]>,
-    ),
+    ).then((result) => result.map(normalizeSlot)),
   ]);
 
   return profiles.map((profile) => ({

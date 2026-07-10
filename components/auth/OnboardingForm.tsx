@@ -7,9 +7,11 @@ import { useMemo, useState, type FormEventHandler } from "react";
 import {
   getErrorMessage,
   isUsernameTakenError,
+  MISSING_SUPABASE_ENV_MESSAGE,
   normalizeUsername,
   validateUsername,
 } from "@/lib/auth";
+import { hasSupabaseEnv } from "@/lib/supabase/config";
 import { createClient } from "@/lib/supabase/client";
 
 type OnboardingFormProps = {
@@ -21,14 +23,26 @@ export function OnboardingForm({
   userId,
   initialDisplayName,
 }: OnboardingFormProps) {
-  const supabase = useMemo(() => createClient(), []);
+  const supabaseEnabled = hasSupabaseEnv();
+  const supabase = useMemo(
+    () => (supabaseEnabled ? createClient() : null),
+    [supabaseEnabled],
+  );
   const router = useRouter();
   const [username, setUsername] = useState("");
   const [submitting, setSubmitting] = useState(false);
-  const [message, setMessage] = useState<string | null>(null);
+  const [message, setMessage] = useState<string | null>(
+    supabaseEnabled ? null : MISSING_SUPABASE_ENV_MESSAGE,
+  );
 
   const handleSubmit: FormEventHandler<HTMLFormElement> = async (event) => {
     event.preventDefault();
+
+    if (!supabase) {
+      setMessage(MISSING_SUPABASE_ENV_MESSAGE);
+      return;
+    }
+
     setSubmitting(true);
     setMessage(null);
 
@@ -63,11 +77,11 @@ export function OnboardingForm({
 
   return (
     <main className="mx-auto flex min-h-[calc(100vh-10rem)] w-full max-w-4xl items-center px-4 py-10 sm:px-6">
-      <section className="w-full rounded-4xl border border-black/10 bg-white/88 p-8 shadow-[0_40px_120px_-60px_rgba(15,23,42,0.8)] backdrop-blur dark:border-white/10 dark:bg-neutral-950/82">
+      <section className="w-full rounded-4xl border border-black/10 bg-white/88 p-5 shadow-[0_40px_120px_-60px_rgba(15,23,42,0.8)] backdrop-blur sm:p-8 dark:border-white/10 dark:bg-neutral-950/82">
         <p className="text-xs font-semibold uppercase tracking-[0.24em] text-emerald-700 dark:text-emerald-300">
           Onboarding
         </p>
-        <h1 className="mt-4 font-serif text-5xl leading-none tracking-tight text-neutral-950 dark:text-neutral-50">
+        <h1 className="mt-4 font-serif text-4xl leading-none tracking-tight text-neutral-950 sm:text-5xl dark:text-neutral-50">
           Claim your username.
         </h1>
         <p className="mt-5 max-w-2xl text-base leading-7 text-neutral-600 dark:text-neutral-300">
@@ -106,7 +120,7 @@ export function OnboardingForm({
           <button
             type="submit"
             disabled={submitting}
-            className="inline-flex items-center justify-center gap-2 rounded-full bg-neutral-950 px-5 py-3 text-sm font-medium text-white transition hover:bg-neutral-800 disabled:cursor-wait disabled:opacity-70 dark:bg-neutral-100 dark:text-neutral-950 dark:hover:bg-white"
+            className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-neutral-950 px-5 py-3 text-sm font-medium text-white transition hover:bg-neutral-800 disabled:cursor-wait disabled:opacity-70 sm:w-auto dark:bg-neutral-100 dark:text-neutral-950 dark:hover:bg-white"
           >
             {submitting ? (
               <LoaderCircle className="h-4 w-4 animate-spin" />

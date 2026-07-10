@@ -1,5 +1,6 @@
 import { redirect } from "next/navigation";
 
+import { hasSupabaseEnv } from "@/lib/supabase/config";
 import { createClient } from "@/lib/supabase/server";
 
 export default async function ProtectedLayout({
@@ -7,6 +8,10 @@ export default async function ProtectedLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  if (!hasSupabaseEnv()) {
+    redirect("/login");
+  }
+
   const supabase = await createClient();
   const {
     data: { user },

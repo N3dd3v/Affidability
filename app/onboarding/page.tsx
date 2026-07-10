@@ -1,9 +1,14 @@
 import { redirect } from "next/navigation";
 
 import { OnboardingForm } from "@/components/auth/OnboardingForm";
+import { hasSupabaseEnv } from "@/lib/supabase/config";
 import { createClient } from "@/lib/supabase/server";
 
 export default async function OnboardingPage() {
+  if (!hasSupabaseEnv()) {
+    redirect("/login");
+  }
+
   const supabase = await createClient();
   const {
     data: { user },

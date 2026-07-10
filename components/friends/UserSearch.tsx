@@ -115,7 +115,7 @@ export function UserSearch({
             return (
               <article
                 key={profile.id}
-                className="flex items-center justify-between gap-4 rounded-2xl border border-neutral-200 bg-white px-4 py-3 shadow-sm shadow-neutral-950/5 dark:border-neutral-800 dark:bg-neutral-950"
+                className="flex flex-col gap-4 rounded-2xl border border-neutral-200 bg-white px-4 py-3 shadow-sm shadow-neutral-950/5 sm:flex-row sm:items-center sm:justify-between dark:border-neutral-800 dark:bg-neutral-950"
               >
                 <div className="flex min-w-0 items-center gap-3">
                   <Avatar profile={profile} />
@@ -129,7 +129,7 @@ export function UserSearch({
                   </div>
                 </div>
 
-                <div className="shrink-0">
+                <div className="w-full sm:w-auto sm:shrink-0">
                   <RelationshipButton
                     state={relationship}
                     busy={busyFor(profile.id)}

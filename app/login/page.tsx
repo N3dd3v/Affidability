@@ -5,18 +5,29 @@ import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useState, type FormEventHandler } from "react";
 
 import { AuthCard } from "@/components/auth/AuthCard";
-import { getErrorMessage } from "@/lib/auth";
+import { getErrorMessage, MISSING_SUPABASE_ENV_MESSAGE } from "@/lib/auth";
+import { hasSupabaseEnv } from "@/lib/supabase/config";
 import { createClient } from "@/lib/supabase/client";
 
 export default function LoginPage() {
-  const supabase = useMemo(() => createClient(), []);
+  const supabaseEnabled = hasSupabaseEnv();
+  const supabase = useMemo(
+    () => (supabaseEnabled ? createClient() : null),
+    [supabaseEnabled],
+  );
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [submitting, setSubmitting] = useState(false);
-  const [message, setMessage] = useState<string | null>(null);
+  const [message, setMessage] = useState<string | null>(
+    supabaseEnabled ? null : MISSING_SUPABASE_ENV_MESSAGE,
+  );
 
   useEffect(() => {
+    if (!supabase) {
+      return;
+    }
+
     // On first render, probe the current session. If a user is already present,
     // the algorithm short-circuits the page and redirects straight to `/friends`
     // instead of showing a login form that is no longer needed.
@@ -26,10 +37,16 @@ export default function LoginPage() {
         router.refresh();
       }
     });
-  }, [router, supabase.auth]);
+  }, [router, supabase]);
 
   const handleSubmit: FormEventHandler<HTMLFormElement> = async (event) => {
     event.preventDefault();
+
+    if (!supabase) {
+      setMessage(MISSING_SUPABASE_ENV_MESSAGE);
+      return;
+    }
+
     setSubmitting(true);
     setMessage(null);
 

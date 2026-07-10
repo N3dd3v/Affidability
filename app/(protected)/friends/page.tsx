@@ -49,7 +49,7 @@ export default function FriendsPage() {
             <p className="text-xs font-semibold uppercase tracking-[0.24em] text-emerald-700 dark:text-emerald-300">
               Friends
             </p>
-            <h1 className="mt-3 font-serif text-5xl leading-none tracking-tight text-neutral-900 dark:text-neutral-100">
+            <h1 className="mt-3 font-serif text-4xl leading-none tracking-tight text-neutral-900 sm:text-5xl dark:text-neutral-100">
               Friends
             </h1>
             <p className="mt-4 text-base leading-7 text-neutral-600 dark:text-neutral-300">
@@ -58,7 +58,7 @@ export default function FriendsPage() {
             </p>
           </header>
 
-          <div className="grid grid-cols-1 gap-8 md:grid-cols-[minmax(0,1.7fr)_minmax(18rem,1fr)]">
+          <div className="grid grid-cols-1 gap-8 lg:grid-cols-[minmax(0,1.7fr)_minmax(18rem,1fr)]">
             <div>
               <UserSearch
                 query={friends.query}

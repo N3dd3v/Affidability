@@ -38,17 +38,17 @@ export default function HomePage() {
   return (
     <main className="relative overflow-hidden">
       <div className="pointer-events-none absolute inset-x-0 top-0 h-136 bg-[radial-gradient(circle_at_top,rgba(16,185,129,0.22),transparent_58%)]" />
-      <div className="mx-auto flex w-full max-w-6xl flex-col gap-24 px-4 py-10 sm:px-6 lg:py-16">
-        <section className="grid gap-10 lg:grid-cols-[minmax(0,1.15fr)_minmax(22rem,0.85fr)] lg:items-end">
+      <div className="mx-auto flex w-full max-w-6xl flex-col gap-20 px-4 py-8 sm:px-6 sm:py-10 lg:gap-24 lg:py-16">
+        <section className="grid gap-8 lg:grid-cols-[minmax(0,1.15fr)_minmax(22rem,0.85fr)] lg:items-end lg:gap-10">
           <div className="max-w-3xl">
             <div className="inline-flex items-center gap-2 rounded-full border border-black/10 bg-white/70 px-3 py-2 text-xs font-semibold uppercase tracking-[0.24em] text-emerald-700 backdrop-blur dark:border-white/10 dark:bg-white/5 dark:text-emerald-300">
               <Sparkles className="h-3.5 w-3.5" />
               Social Availability
             </div>
-            <h1 className="mt-6 font-serif text-[3.6rem] leading-[0.92] tracking-[-0.04em] text-neutral-950 dark:text-neutral-50 sm:text-[4.8rem]">
+            <h1 className="mt-6 font-serif text-5xl leading-[0.95] tracking-[-0.04em] text-neutral-950 sm:text-6xl lg:text-[4.8rem] dark:text-neutral-50">
               A softer way to ask, &quot;When are we free?&quot;
             </h1>
-            <p className="mt-6 max-w-2xl text-lg leading-8 text-neutral-600 dark:text-neutral-300">
+            <p className="mt-6 max-w-2xl text-base leading-7 text-neutral-600 sm:text-lg sm:leading-8 dark:text-neutral-300">
               Build your social graph, share your weekly rhythm, and replace messy
               scheduling threads with one calm, visual place to plan.
             </p>
@@ -56,21 +56,21 @@ export default function HomePage() {
             <div className="mt-10 flex flex-col gap-4 sm:flex-row">
               <Link
                 href="/friends"
-                className="inline-flex h-12 items-center justify-center gap-2 rounded-full bg-neutral-950 px-6 text-sm font-medium text-white transition hover:bg-neutral-800 dark:bg-neutral-100 dark:text-neutral-950 dark:hover:bg-white"
+                className="inline-flex h-12 w-full items-center justify-center gap-2 rounded-full bg-neutral-950 px-6 text-sm font-medium text-white transition hover:bg-neutral-800 sm:w-auto dark:bg-neutral-100 dark:text-neutral-950 dark:hover:bg-white"
               >
                 Open friends
                 <ArrowRight className="h-4 w-4" />
               </Link>
               <Link
                 href="/availability"
-                className="inline-flex h-12 items-center justify-center rounded-full border border-black/10 px-6 text-sm font-medium text-neutral-700 transition hover:border-neutral-400 hover:bg-white/70 dark:border-white/10 dark:text-neutral-200 dark:hover:bg-white/5"
+                className="inline-flex h-12 w-full items-center justify-center rounded-full border border-black/10 px-6 text-sm font-medium text-neutral-700 transition hover:border-neutral-400 hover:bg-white/70 sm:w-auto dark:border-white/10 dark:text-neutral-200 dark:hover:bg-white/5"
               >
                 View availability
               </Link>
             </div>
           </div>
 
-          <div className="rounded-4xl border border-black/10 bg-white/80 p-6 shadow-[0_40px_120px_-60px_rgba(15,23,42,0.75)] backdrop-blur dark:border-white/10 dark:bg-neutral-950/80">
+          <div className="rounded-4xl border border-black/10 bg-white/80 p-5 shadow-[0_40px_120px_-60px_rgba(15,23,42,0.75)] backdrop-blur sm:p-6 dark:border-white/10 dark:bg-neutral-950/80">
             <div className="grid gap-3 sm:grid-cols-3 lg:grid-cols-1">
               {/* Stats are rendered from data so the summary card stays easy to edit
                   without touching the presentation structure. */}
@@ -101,7 +101,7 @@ export default function HomePage() {
           </div>
         </section>
 
-        <section className="grid gap-4 lg:grid-cols-3">
+        <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
           {featureCards.map((card) => {
             // Each feature selects its icon component dynamically from the config
             // object, then renders a matching title/copy block with the same layout.
@@ -115,7 +115,7 @@ export default function HomePage() {
                 <span className="inline-flex rounded-full bg-neutral-100 p-3 dark:bg-white/5">
                   <Icon className="h-5 w-5 text-neutral-800 dark:text-neutral-100" />
                 </span>
-                <h2 className="mt-5 font-serif text-3xl text-neutral-950 dark:text-neutral-50">
+                <h2 className="mt-5 font-serif text-2xl text-neutral-950 sm:text-3xl dark:text-neutral-50">
                   {card.title}
                 </h2>
                 <p className="mt-3 text-sm leading-7 text-neutral-600 dark:text-neutral-300">
@@ -126,16 +126,16 @@ export default function HomePage() {
           })}
         </section>
 
-        <section className="grid gap-6 rounded-5xl border border-black/10 bg-neutral-950 px-6 py-8 text-white shadow-[0_32px_90px_-55px_rgba(15,23,42,1)] dark:border-white/10 sm:px-8 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:items-center">
+        <section className="grid gap-6 rounded-5xl border border-black/10 bg-neutral-950 px-5 py-8 text-white shadow-[0_32px_90px_-55px_rgba(15,23,42,1)] sm:px-8 dark:border-white/10 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:items-center">
           <div>
             <p className="text-xs font-semibold uppercase tracking-[0.24em] text-emerald-300">
               How it flows
             </p>
-            <h2 className="mt-3 font-serif text-4xl leading-tight text-white">
+            <h2 className="mt-3 font-serif text-3xl leading-tight text-white sm:text-4xl">
               Add people, mark your week, meet without the back-and-forth.
             </h2>
           </div>
-          <div className="grid gap-4 sm:grid-cols-3">
+          <div className="grid gap-4 md:grid-cols-3">
             {[
               "Search and add the people you actually plan with.",
               "Publish the windows that feel realistic for your week.",

@@ -43,7 +43,7 @@ export default function AvailabilityPage() {
             <p className="text-xs font-semibold uppercase tracking-[0.24em] text-emerald-700 dark:text-emerald-300">
               Availability
             </p>
-            <h1 className="mt-3 font-serif text-5xl leading-none text-neutral-950 dark:text-neutral-50">
+            <h1 className="mt-3 font-serif text-4xl leading-none text-neutral-950 sm:text-5xl dark:text-neutral-50">
               Turn a messy week into a clear social rhythm.
             </h1>
             <p className="mt-4 text-base leading-7 text-neutral-600 dark:text-neutral-300">
@@ -52,7 +52,7 @@ export default function AvailabilityPage() {
             </p>
           </header>
 
-          <div className="grid grid-cols-1 gap-8 xl:grid-cols-[minmax(0,1.65fr)_minmax(20rem,0.95fr)]">
+          <div className="grid grid-cols-1 gap-8 lg:grid-cols-[minmax(0,1.65fr)_minmax(18rem,0.95fr)]">
             <AvailabilityGrid
               selectedKeys={availability.selectedKeys}
               busyFor={busyFor}
