@@ -24,7 +24,7 @@ function isProtectedRoute(pathname: string): boolean {
 }
 
 export async function middleware(request: NextRequest) {
-  if (!hasSupabaseEnv) {
+  if (!hasSupabaseEnv()) {
     if (isProtectedRoute(request.nextUrl.pathname)) {
       const redirectUrl = request.nextUrl.clone();
       redirectUrl.pathname = "/login";
